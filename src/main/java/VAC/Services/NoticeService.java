@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import VAC.Dto.NoticeDto;
 import VAC.Entity.Notice;
 
@@ -20,7 +22,7 @@ public interface NoticeService {
 	
 	
 	//update notice
-	Boolean updateNotice(NoticeDto noticeDto ,Integer id) throws IOException;
+	Boolean updateNotice(String title, String description, String imageName, String noticeDate, MultipartFile file,Integer id) throws IOException;
 	
 	
 	

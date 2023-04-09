@@ -92,7 +92,7 @@ public class NoticeController {
 
 		HashMap<String, Object> response = new HashMap<>();
 
-		response.put("message", noticeById);
+		response.put("notice", noticeById);
 		response.put("status", 200);
 
 		return ResponseEntity.status(200).body(response);
@@ -120,10 +120,21 @@ public class NoticeController {
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateNotice(@ModelAttribute NoticeDto noticeDTO, @PathVariable Integer id) {
+	public ResponseEntity<?> updateNotice(@RequestParam String title,
+			@RequestParam String description ,
+			@RequestParam String imageName ,
+			@RequestParam(required = false) String noticeDate ,
+			 @RequestParam( required = false) MultipartFile file,
+			@PathVariable Integer id) {
 
 		try {
-			Boolean updateNotice = this.noticeService.updateNotice(noticeDTO, id);
+			
+			
+			
+			
+			
+			
+			Boolean updateNotice = this.noticeService.updateNotice(  title, description,  imageName,  noticeDate,  file, id);
 
 			if (updateNotice) {
 				HashMap<String, Object> response = new HashMap<>();
@@ -144,9 +155,11 @@ public class NoticeController {
 			response.put("status", 400);
 			return ResponseEntity.status(200).body(response);
 		}
-	}
+		}
+		
+	
 
-	@PatchMapping("/Active/{id}")
+	@PatchMapping("/active/{id}")
 	public ResponseEntity<?> updateNoticeIsActive(@PathVariable Integer id) {
 
 		Boolean updateNoticeIsActive = this.noticeService.updateNoticeIsActive(id);

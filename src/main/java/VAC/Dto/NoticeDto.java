@@ -1,7 +1,9 @@
 package VAC.Dto;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import VAC.Entity.MainUser;
@@ -19,7 +21,9 @@ public class NoticeDto {
 
 	    private String description;
 
+	   
 	    private MultipartFile file;
+	    private String imageName;
 	    
 	    
 	    private String noticeDate;
