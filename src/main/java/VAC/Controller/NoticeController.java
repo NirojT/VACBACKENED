@@ -36,6 +36,7 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 
+	
 	@PostMapping("/create")
 	public ResponseEntity<?> createNotice(@ModelAttribute NoticeDto noticeDTO) {
 		try {
@@ -64,6 +65,8 @@ public class NoticeController {
 		}
 	}
 
+	
+	
 	@GetMapping("/get-all")
 	public ResponseEntity<?> getAllNotice() {
 
@@ -76,6 +79,7 @@ public class NoticeController {
 //		return new ResponseEntity<List<Notice>>(allNotices, HttpStatus.OK);
 	}
 
+	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getNoticeById(@PathVariable Integer id) {
 
@@ -98,6 +102,7 @@ public class NoticeController {
 		return ResponseEntity.status(200).body(response);
 	}
 
+	
 	// deleting the post
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteNotice(@PathVariable Integer id) {
@@ -188,53 +193,5 @@ public class NoticeController {
 		}
 	}
 
-	/*
-	 * @PostMapping("/create") public ResponseEntity<Notice>
-	 * createNotice(@RequestParam("file")MultipartFile file ,@RequestParam("title")
-	 * String title,
-	 * 
-	 * @RequestParam("description") String description) throws IOException{
-	 * 
-	 * 
-	 * // Check if the file is empty if (file.isEmpty()) { throw new
-	 * RuntimeException("File is empty"); }
-	 * 
-	 * // Get the file name and content type String fileName =
-	 * file.getOriginalFilename(); System.out.println(fileName); String contentType
-	 * = file.getContentType(); System.out.println(contentType); // Read the file
-	 * content byte[] data = file.getBytes();
-	 * 
-	 * // Save the file to the server String filePath = "src/main/resource/static/"
-	 * + fileName; FileUtils.writeByteArrayToFile(new File(filePath), data);
-	 * 
-	 * //notice.setImage("http://localhost:9191"+fileName);
-	 * 
-	 * Notice notice=new Notice(); notice.setTitle(title);
-	 * notice.setDescription(description);
-	 * notice.setImageName("http://localhost:9191/"+filePath); Notice createdNotice
-	 * = this.noticeService.createNotice(notice);
-	 * 
-	 * 
-	 * return new ResponseEntity<Notice>(createdNotice,HttpStatus.CREATED);
-	 * 
-	 * }
-	 */
-	/*
-	 * @PostMapping("/upload") public ResponseEntity<String>
-	 * uploadFile(@RequestParam("file") MultipartFile file) throws IOException { //
-	 * Check if the file is empty if (file.isEmpty()) { throw new
-	 * RuntimeException("File is empty"); }
-	 * 
-	 * // Get the file name and content type String fileName =
-	 * file.getOriginalFilename(); String contentType = file.getContentType();
-	 * 
-	 * // Read the file content byte[] data = file.getBytes();
-	 * 
-	 * // Save the file to the server String filePath = "C:/uploads/" + fileName;
-	 * FileUtils.writeByteArrayToFile(new File(filePath), data);
-	 * 
-	 * // Return a success message return
-	 * ResponseEntity.ok("File uploaded successfully"); }
-	 */
 
 }

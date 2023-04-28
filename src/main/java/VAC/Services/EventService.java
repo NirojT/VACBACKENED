@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import VAC.Dto.EventDto;
 import VAC.Dto.NoticeDto;
 import VAC.Entity.Event;
@@ -21,8 +23,10 @@ public interface EventService {
 	
 	
 	
-	//update notice
-	Boolean updateEvent(EventDto eventDto ,Integer id) throws IOException;
+	//update Event
+
+	Boolean updateEvent(String title, String description, String imageName, String eventDate, MultipartFile file,Integer id) throws IOException;
+	
 	
 	
 	

@@ -1,6 +1,7 @@
 package VAC.ServicesImpl;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,42 +39,43 @@ public class NoticeServiceImpl implements NoticeService {
 	public Boolean createNotice(NoticeDto noticeDto) throws IOException {
 		String imageName = noticeDto.getFile().getOriginalFilename();
 
-		// Save the file to the server file system
-		String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static";
-		Path uploadPath = Paths.get(uploadDirectory);
+
 		try {
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-				System.out.println("inside try");
-			}
+		    // Save the file to the server file system
+		    String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static";
+		    Path uploadPath = Paths.get(uploadDirectory);
+		    if (!Files.exists(uploadPath)) {
+		        Files.createDirectories(uploadPath);
+		    }
+
+		    // Copy the uploaded file to the final location
+		    Path imagePath = uploadPath.resolve(imageName);
+		    Files.copy(noticeDto.getFile().getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+		    noticeDto.getFile().getInputStream().close(); // close the input stream
+
+		    // Save the Notice in the database
+		    Notice notice = new Notice();
+		    notice.setTitle(noticeDto.getTitle());
+		    notice.setDescription(noticeDto.getDescription());
+		    notice.setImageName("http://localhost:9191/" + imageName);
+		    notice.setNoticeDate(noticeDto.getNoticeDate());
+		    notice.setIsActive(false);
+		    Notice createdNotice = this.noticeRepo.save(notice);
+
+		    if (createdNotice instanceof Notice) {
+		        return true;
+		    }
+		    return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			Path imagePath = uploadPath.resolve(imageName);
-			Files.copy(noticeDto.getFile().getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
-			noticeDto.getFile().getInputStream().close(); // close the input stream
-			// Save the Notice in the database
-			Notice notice = new Notice();
-			notice.setTitle(noticeDto.getTitle());
-			notice.setDescription(noticeDto.getDescription());
-			notice.setImageName("http://localhost:9191/" + imageName);
-			notice.setNoticeDate(noticeDto.getNoticeDate());
-			notice.setIsActive(false);
-//	        notice.setImagePath(imagePath.toString());
-			Notice createdNotice = this.noticeRepo.save(notice);
-
-			if (createdNotice instanceof Notice) {
-				return true;
-			}
-			return false;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+		    e.printStackTrace();
+		    return false;
+		} catch (UncheckedIOException e) {
+		    // Handle the exception that occurs when deleting the temporary file
+		    System.err.println("Error deleting temporary file: " + e.getMessage());
+		    return true;
 		}
 	}
+
 
 	// updating notice using dto
 

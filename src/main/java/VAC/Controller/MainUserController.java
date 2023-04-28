@@ -25,15 +25,9 @@ import VAC.Services.MainUserService;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(
-		origins =  "http://127.0.0.1:5173/",
-		allowCredentials ="true"
-		  
-//		  Access-Control-Allow-Origin= "*",
-//		  preflightContinue= "false"
-		
-		
-		)
+@CrossOrigin(origins = {"http://127.0.0.1:5173/"
+		,"http://192.168.0.102:5173/"}, 
+         allowCredentials = "true")
 
 
 public class MainUserController {
@@ -42,7 +36,8 @@ public class MainUserController {
 	public MainUserService mainUserService;
 	
 	
-	  @Autowired public JwtService jwtService;
+	  @Autowired 
+	  public JwtService jwtService;
 	 
 	
 	@Autowired

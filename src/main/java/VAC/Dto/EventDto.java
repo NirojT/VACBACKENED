@@ -20,8 +20,10 @@ public class EventDto {
     private MultipartFile file;
     	
     private String eventDate;
+    
+    private String imageName;
  
-    //private String imageName;
+    
 }
 
 
