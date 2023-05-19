@@ -2,10 +2,12 @@ package VAC.ServicesImpl;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.rmi.server.UID;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
@@ -29,32 +31,39 @@ public class EventServiceImpl implements EventService {
 	@Autowired
 	public EventRepo eventRepo;
 
-// create event
+	// create event
 	public Boolean createEvent(EventDto eventDto) throws IOException {
+		UID iUid = new UID();
 
-		String imageName = eventDto.getFile().getOriginalFilename();
+		String uidString = iUid.toString().replace(':', '_'); // replace ':' with '_'
+		String originalFilename = eventDto.getFile().getOriginalFilename();
 
-		System.out.println(imageName);
+		// Ensure that the original file name has an extension
+		String extension = "";
+		int dotIndex = originalFilename.lastIndexOf('.');
+		if (dotIndex >= 0) {
+			extension = originalFilename.substring(dotIndex);
+			originalFilename = originalFilename.substring(0, dotIndex);
+		}
+
+		String imageName = originalFilename + "_" + uidString + extension;
 
 		// Save the file to the server file system
 		String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static";
 
 		Path uploadPath = Paths.get(uploadDirectory);
-		try {
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-				System.out.println("inside try");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		if (!Files.exists(uploadPath)) {
+			Files.createDirectories(uploadPath);
+			System.out.println("inside try");
 		}
 
-		try {
-			Path imagePath = uploadPath.resolve(imageName);
-			Files.copy(eventDto.getFile().getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
-			eventDto.getFile().getInputStream().close(); // close the input stream
-
+		Path imagePath = uploadPath.resolve(imageName);
+		try (InputStream inputStream = eventDto.getFile().getInputStream()) {
+			Files.copy(inputStream, imagePath, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to store file " + originalFilename, e);
+		}
 			// Save the Notice in the database
 
 			Event event = new Event();
@@ -66,14 +75,18 @@ public class EventServiceImpl implements EventService {
 			event.setEventDate(eventDto.getEventDate());
 
 			Object createdEvent = this.eventRepo.save(event);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			if (createdEvent instanceof Event) {
 				return true;
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 		return false;
 
 	}
@@ -84,46 +97,72 @@ public class EventServiceImpl implements EventService {
 			Integer id) throws IOException {
 
 		if (file != null) {
+			UID iUid = new UID();
 
-			String filename = file.getOriginalFilename();
+			String uidString = iUid.toString().replace(':', '_'); // replace ':' with '_'
+			String originalFilename = file.getOriginalFilename();
+
+			// Ensure that the original file name has an extension
+			String extension = "";
+			int dotIndex = originalFilename.lastIndexOf('.');
+			if (dotIndex >= 0) {
+				extension = originalFilename.substring(dotIndex);
+				originalFilename = originalFilename.substring(0, dotIndex);
+			}
+			// for multipart
+			String imageNames = originalFilename + "_" + uidString + extension;
+
+			System.out.println(imageNames);
+			System.out.println(imageName);
 
 			// Save the file to the server file system
 			String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static";
 			Path uploadPath = Paths.get(uploadDirectory);
-			try {
+		
 				if (!Files.exists(uploadPath)) {
 					Files.createDirectories(uploadPath);
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 
-			try {
-				Path imagePath = uploadPath.resolve(filename);
-				Files.copy(file.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
-				file.getInputStream().close(); // close the input stream
-				// Save the Notice in the database
+			
+				Path imagePath = uploadPath.resolve(imageNames);
+				
+				try (InputStream inputStream = file.getInputStream()) {
+					Files.copy(inputStream, imagePath, StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					throw new RuntimeException("Failed to store file " + originalFilename, e);
+				}// Save the event in the database
 
 				Event eventU = this.eventRepo.findById(id)
 						.orElseThrow(() -> new ResourceNotFound("Event", "Event id", id));
+				
+				
+				// deleting file in project folder tooo after updatimg
+				
+				String deletePhoto = eventU.getImageName().replace("http://localhost:9191", "");
+				System.out.println(deletePhoto);
+				Path filePath = Paths.get(uploadDirectory, deletePhoto);
+				Files.deleteIfExists(filePath);
 
 				eventU.setTitle(title);
 				eventU.setDescription(description);
 				eventU.setEventDate(eventDate);
-				eventU.setImageName("http://localhost:9191/" + filename);
+				eventU.setImageName("http://localhost:9191/" + imageNames);
 				eventU.setIsActive(false);
 
 				Event updatedEvent = this.eventRepo.save(eventU);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				if (updatedEvent instanceof Event) {
 
 					return true;
 				}
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
 			return false;
 		}
@@ -165,6 +204,14 @@ public class EventServiceImpl implements EventService {
 		try {
 			Event deleteEvent = this.eventRepo.findById(eid)
 					.orElseThrow(() -> new ResourceNotFound("Event", "Event id", eid));
+
+			// deleting file in project folder tooo
+			String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static";
+
+			String deletePhoto = deleteEvent.getImageName().replace("http://localhost:9191", "");
+			System.out.println(deletePhoto);
+			Path filePath = Paths.get(uploadDirectory, deletePhoto);
+			Files.deleteIfExists(filePath);
 
 			this.eventRepo.delete(deleteEvent);
 

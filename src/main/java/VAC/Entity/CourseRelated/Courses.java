@@ -15,6 +15,10 @@ import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +34,8 @@ public class Courses {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+  
 
     @Column(name = "title", unique = true, columnDefinition = "VARCHAR(1000)")
     private String title = "name";
@@ -44,9 +50,9 @@ public class Courses {
     private String duration;
 
     @Column(unique = true, columnDefinition = "VARCHAR(1000)")
-    private String Criteria;
+    private String criteria;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "courses",fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "courses",fetch = FetchType.EAGER)
 	private List<Year1> year1=new ArrayList<>() ;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "courses",fetch = FetchType.LAZY)

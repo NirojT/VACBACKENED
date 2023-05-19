@@ -38,7 +38,7 @@ import VAC.Services.EventService;
 
 @RestController
 @RequestMapping("api/event")
-@CrossOrigin (origins = "http://127.0.0.1:5173/", allowCredentials = "true") 
+@CrossOrigin(origins = {"http://127.0.0.1:5173/", "http://localhost:5173/"}, allowCredentials = "true")
 public class EventController {
 
 	@Autowired
@@ -90,6 +90,7 @@ public class EventController {
 				HashMap<String, Object> response = new HashMap<>();
 				response.put("message", "Event created successfully");
 				response.put("status", 200);
+		
 				return ResponseEntity.status(200).body(response);
 			}
 

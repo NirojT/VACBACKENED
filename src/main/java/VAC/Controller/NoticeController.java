@@ -30,7 +30,7 @@ import VAC.Services.NoticeService;
 
 @RestController
 @RequestMapping("/api/notice")
-@CrossOrigin(origins = "http://127.0.0.1:5173/", allowCredentials = "true")
+@CrossOrigin(origins = {"http://127.0.0.1:5173/", "http://localhost:5173/"}, allowCredentials = "true")
 public class NoticeController {
 
 	@Autowired
@@ -119,6 +119,7 @@ public class NoticeController {
 
 			response.put("message", "notice deleted successfully");
 			response.put("status", 200);
+			
 
 			return ResponseEntity.status(200).body(response);
 		}
@@ -130,12 +131,12 @@ public class NoticeController {
 			@RequestParam String imageName ,
 			@RequestParam(required = false) String noticeDate ,
 			 @RequestParam( required = false) MultipartFile file,
-			@PathVariable Integer id) {
+			@PathVariable Integer id) throws Exception {
 
 		try {
 			
 			
-			
+		
 			
 			
 			

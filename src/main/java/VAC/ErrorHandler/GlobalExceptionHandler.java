@@ -40,28 +40,3 @@ public class GlobalExceptionHandler {
 	}
 
 }
-//@ExceptionHandler(ResourceNotFoundException.class)
-//public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(ResourceNotFoundException ex)
-//{
-//String message = ex.getMessage();
-//
-//ApiResponse apiResponse=new ApiResponse(message,false);
-//
-//return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.NOT_FOUND);
-//	
-//}
-//
-//@ExceptionHandler(MethodArgumentNotValidException.class)
-//public ResponseEntity<Map<String,String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex)
-//{
-//	Map<String , String> respo=new HashMap<>();
-//	
-//	ex.getBindingResult().getAllErrors().forEach((error) ->{
-//		
-//		String field = ((FieldError)error).getField();
-//		String defaultMessage = error.getDefaultMessage();
-//		respo.put(field, defaultMessage);
-//	});
-//
-//	return new ResponseEntity<Map<String,String>>(respo,HttpStatus.BAD_REQUEST);
-//}	

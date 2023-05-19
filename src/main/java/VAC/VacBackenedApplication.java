@@ -4,31 +4,53 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import VAC.Entity.MainUser;
 import VAC.Entity.CourseRelated.Courses;
 import VAC.Entity.CourseRelated.Year1;
+import VAC.Entity.CourseRelated.Year2;
+import VAC.Entity.CourseRelated.Year3;
+import VAC.Entity.CourseRelated.Year4;
+import VAC.Entity.CourseRelated.Year5;
+import VAC.Entity.CourseRelated.Year6;
+import VAC.Entity.CourseRelated.Year7;
+import VAC.Entity.CourseRelated.Year8;
 import VAC.Services.MainUserService;
 import VAC.Services.courseRelated.CourseRelatedServices;
 import VAC.Services.courseRelated.Year1Service;
+import VAC.Services.courseRelated.Year2Service;
+import VAC.Services.courseRelated.Year3Service;
+import VAC.Services.courseRelated.Year4Service;
+import VAC.Services.courseRelated.Year5Service;
+import VAC.Services.courseRelated.Year6Service;
+import VAC.Services.courseRelated.Year7Service;
+import VAC.Services.courseRelated.Year8Service;
 import net.bytebuddy.asm.Advice.This;
 
 @SpringBootApplication
 public class VacBackenedApplication implements CommandLineRunner {
-
-	@Autowired
-	private CourseRelatedServices courseRelatedServices;
-	@Autowired
-	private Year1Service year1Service;
-	@Autowired
-	private MainUserService mainUserService;
-	@Autowired
-	private PasswordEncoder passwordEncoder  ;
+	
+	/*
+	 * @Autowired private CourseRelatedServices courseRelatedServices;
+	 * 
+	 * 
+	 * @Autowired private Year8Service year4Service;
+	 * 
+	 * @Autowired private MainUserService mainUserService;
+	 * 
+	 * @Autowired private PasswordEncoder passwordEncoder;
+	 */
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(VacBackenedApplication.class, args);
@@ -44,7 +66,7 @@ public class VacBackenedApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		
+
 //		MainUser user = new  MainUser();
 //		user.setName("admin");
 //		user.setPassword(passwordEncoder.encode("admin"));
@@ -56,28 +78,28 @@ public class VacBackenedApplication implements CommandLineRunner {
 //		this.mainUserService.createMainUser(user);
 
 		// seeding
-		
-		/*
-		 * try { Courses courses=new Courses(); courses.setId(1);
-		 * 
-		 * 
-		 * Year1 year1=new Year1(); year1.setCourses(courses);
-		 * //year1.setSubject("Computer Fundamentals & Applications (CACS 101)");
-		 * //year1.setSubject("Society & Technology (CASO 102)");
-		 * //year1.setSubject("English I (CAEN 103)");
-		 * //year1.setSubject("Mathematics I (CAMT 104)"); //
-		 * year1.setSubject("Digital Logic (CACS 105)");
-		 * 
-		 * this.year1Service.createYear1(year1);
-		 * 
-		 * 
-		 * }catch (Exception e) {
-		 * 
-		 * e.printStackTrace(); // TODO: handle exception }
-		 * 
-		 * }
-		 */
-		 
+
+		try {
+			Courses courses = new Courses();
+			courses.setId(1);
+
+			Year8 year4 = new Year8();
+			year4.setCourses(courses);
+			year4.setSubject("Mobile Programming (CACS 351)");
+			year4.setSubject("Distributed System (CACS 352)");
+			year4.setSubject("Applided Ecomomics (CAEC 353)");
+			year4.setSubject("Advance Java Programming (CACS 354)"); //
+			year4.setSubject("Network Programming (CACS 355)");
+			year4.setSubject("Project II (CAPJ 356)");
+////    
+
+			// this.year4Service.createYear8(year4);
+
+		} catch (Exception e) {
+
+			e.printStackTrace(); // TODO: handle exception }
+
+		}
 
 		/*
 		 * try { // seeding means iam inserting value by myself Courses courses = new
@@ -136,7 +158,7 @@ public class VacBackenedApplication implements CommandLineRunner {
 		 * 
 		 * } catch (Exception e) { e.printStackTrace(); }
 		 */
-		System.out.println(courseRelatedServices);
+		// System.out.println(courseRelatedServices);
 
 	}
 
