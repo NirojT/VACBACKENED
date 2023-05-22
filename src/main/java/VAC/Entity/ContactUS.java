@@ -37,7 +37,9 @@ public class ContactUS {
 	@NotBlank
 	private String phoneNo;
 	
-	private String date;
+
+	
+	private String Name;
 	
 	
 

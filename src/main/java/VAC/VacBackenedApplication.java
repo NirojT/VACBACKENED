@@ -22,7 +22,17 @@ import VAC.Entity.CourseRelated.Year5;
 import VAC.Entity.CourseRelated.Year6;
 import VAC.Entity.CourseRelated.Year7;
 import VAC.Entity.CourseRelated.Year8;
+import VAC.Entity.coursesPlusTwo.CoursePlusTwo;
+import VAC.Entity.coursesPlusTwo.Year1PlusTwo;
+import VAC.Entity.coursesPlusTwo.Year2PlusTwo;
+import VAC.Reposiotery.CoursePlusTwo.CoursePlusTwoRepo;
+import VAC.Reposiotery.CoursePlusTwo.Year1PlusTwoRepo;
+import VAC.Reposiotery.CoursePlusTwo.Year2PlusTwoRepo;
 import VAC.Services.MainUserService;
+import VAC.Services.CoursePlusTwo.CoursePlusTwoService;
+
+import VAC.Services.CoursePlusTwo.Year1PlusTwoService;
+import VAC.Services.CoursePlusTwo.Year2PlusTwoServicec;
 import VAC.Services.courseRelated.CourseRelatedServices;
 import VAC.Services.courseRelated.Year1Service;
 import VAC.Services.courseRelated.Year2Service;
@@ -36,17 +46,24 @@ import net.bytebuddy.asm.Advice.This;
 
 @SpringBootApplication
 public class VacBackenedApplication implements CommandLineRunner {
-	
+
 	/*
-	 * @Autowired private CourseRelatedServices courseRelatedServices;
+	 * @Autowired private CoursePlusTwoService coursePlusTwoServicec;
 	 * 
+	 * @Autowired private CoursePlusTwoRepo coursePlusTwoRepo;
 	 * 
-	 * @Autowired private Year8Service year4Service;
+	 * @Autowired private Year1PlusTwoService year1PlusTwoService;
 	 * 
-	 * @Autowired private MainUserService mainUserService;
+	 * @Autowired private Year1PlusTwoRepo year1PlusTwoRepo;
 	 * 
-	 * @Autowired private PasswordEncoder passwordEncoder;
+	 * @Autowired private Year2PlusTwoRepo year2PlusTwoRepo;
 	 */
+
+//	  @Autowired
+//	  private MainUserService mainUserService;
+//	  
+//	  @Autowired private PasswordEncoder passwordEncoder;
+
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
@@ -80,21 +97,8 @@ public class VacBackenedApplication implements CommandLineRunner {
 		// seeding
 
 		try {
-			Courses courses = new Courses();
-			courses.setId(1);
-
-			Year8 year4 = new Year8();
-			year4.setCourses(courses);
-			year4.setSubject("Mobile Programming (CACS 351)");
-			year4.setSubject("Distributed System (CACS 352)");
-			year4.setSubject("Applided Ecomomics (CAEC 353)");
-			year4.setSubject("Advance Java Programming (CACS 354)"); //
-			year4.setSubject("Network Programming (CACS 355)");
-			year4.setSubject("Project II (CAPJ 356)");
-////    
-
-			// this.year4Service.createYear8(year4);
-
+			
+		
 		} catch (Exception e) {
 
 			e.printStackTrace(); // TODO: handle exception }

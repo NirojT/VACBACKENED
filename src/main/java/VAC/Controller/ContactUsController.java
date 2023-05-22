@@ -36,6 +36,7 @@ public class ContactUsController {
 	public ResponseEntity<?> createContact(@RequestBody ContactUS contactUS){
 		
 		System.out.println(contactUS.getTitle());
+		System.out.println(contactUS.getName());
 		System.out.println(contactUS.getContent());
 		System.out.println(contactUS.getEmail());
 		System.out.println(contactUS.getPhoneNo());

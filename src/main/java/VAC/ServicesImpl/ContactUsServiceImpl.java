@@ -21,13 +21,13 @@ public class ContactUsServiceImpl implements ContactUsService {
 	
 	@Override
 	public Boolean createContact(ContactUS contactUS) {
-		Date date = new Date();
-		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-	        String formattedDate = sdf.format(date);
-		System.out.println(date);
-		System.out.println(formattedDate);
-		
-		contactUS.setDate(formattedDate);
+		/*
+		 * Date date = new Date(); SimpleDateFormat sdf = new
+		 * SimpleDateFormat("yyyy/MM/dd"); String formattedDate = sdf.format(date);
+		 * System.out.println(date); System.out.println(formattedDate);
+		 * 
+		 * contactUS.setDate(formattedDate);
+		 */
 		this.contactUSRepo.save(contactUS);
 		return true;
 	}

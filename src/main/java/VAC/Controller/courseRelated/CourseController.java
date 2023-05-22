@@ -98,7 +98,7 @@ public class CourseController {
 	}
 
 //geting course by id with the list of year1
-	@GetMapping("/get/year1/{id}")
+	@GetMapping("/get/year/{id}")
 	public ResponseEntity<?> getCoursesByIdYear1(@PathVariable("id") Integer ids) {
 
 		HashMap<String, Object> allCourseRelatedByIdDto = this.courseRelatedServices.getAllCourseRelatedByIdYear(ids);
