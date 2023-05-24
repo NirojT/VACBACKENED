@@ -13,7 +13,7 @@ public interface Year2PlusTwoServicec {
 
 	Boolean deleteYear2PlusTwo(int id);
 
-	List<Year2PlusTwoDto> getAllYear1PlusTwo();
+	List<Year2PlusTwoDto> getAllYear2PlusTwo();
 
 	Year2PlusTwoDto getAllYear2PlusTwoById(int id);
 

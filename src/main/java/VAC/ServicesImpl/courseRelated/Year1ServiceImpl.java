@@ -49,11 +49,11 @@ public class Year1ServiceImpl implements Year1Service {
 	
 		year1Update.setSubject(year1Dto.getSubject());
 		
-		this.year1Repo.save(year1Update);
+		Year1 updateYear1 = this.year1Repo.save(year1Update);
 		
 		
 		
-		if (year1Update instanceof Year1) {
+		if (updateYear1 instanceof Year1) {
 			return true;
 			
 		}
